@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Date Parse Example</h2>
+
+
+<p id="date1"></p><br>
+<p id="date2"></p><br>
+<p id="date3"></p><br>
+<p id="date4"></p><br>
+<p id="date5"></p><br>
+<p id="date6"></p><br>
+
+
+<script>
+function parseDateTime(datetime) {
+    var monthNames = [
+	    "January", "February", "March",
+	    "April", "May", "June", "July",
+	    "August", "September", "October",
+	    "November", "December"
+	  ];
+	if(datetime.split(' ').length == 3){
+		var date = datetime.split(' ')[0];
+		var time = datetime.split(' ')[1].replace('.00','');
+		var timearray = time.split(':');
+		var hours = parseInt(time.split(':')[0]);
+		var format = datetime.split(' ')[2];
+		var bits = date.split(/\D/);
+		date = new Date(bits[0], --bits[1], bits[2]);
+		var day = date.getDate();
+		var monthIndex = date.getMonth();
+		var year = date.getFullYear();
+		if ((format === 'PM' || format === 'pm') && hours !== 12) {
+			hours += 12;
+	        try{  time = hours+':'+timearray[1]+':'+timearray[2] }catch(e){ time = hours+':'+timearray[1] }
+	    } 
+		var formateddatetime = new Date(monthNames[monthIndex] + ' ' + day + '  ' + year + ' ' + time);
+		return formateddatetime;
+	}else if(datetime.split(' ').length == 2){
+		var date = datetime.split(' ')[0];
+		var time = datetime.split(' ')[1];
+		var bits = date.split(/\D/);
+		var datetimevalue = new Date(bits[0], --bits[1], bits[2]);
+		var day = datetimevalue.getDate();
+		var monthIndex = datetimevalue.getMonth();
+		var year = datetimevalue.getFullYear();
+		var formateddatetime = new Date(monthNames[monthIndex] + ' ' + day + '  ' + year + ' ' + time);
+		return formateddatetime;
+	}else if(datetime != ''){
+		var bits = datetime.split(/\D/);
+ 		var date = new Date(bits[0], --bits[1], bits[2]);
+ 		return date;
+	}
+    return datetime;
+}
+var date1 = '2018-05-14 05:04:22 AM';   // yyyy-mm-dd hh:mm:ss A
+var date2 = '2018/05/14 05:04:22 AM';   // yyyy/mm/dd hh:mm:ss A
+var date3 = '2018/05/04';   // yyyy/mm/dd
+var date4 = '2018-05-04';   // yyyy-mm-dd
+var date5 = '2018-05-14 15:04:22';   // yyyy-mm-dd HH:mm:ss
+var date6 = '2018/05/14 14:04:22';   // yyyy/mm/dd HH:mm:ss
+
+document.getElementById("date1").innerHTML = 'Format <b>2018-05-14 05:04:22 AM</b>  (<b>yyyy-mm-dd hh:mm:ss A</b>)</br>Date object is :- '+ parseDateTime(date1);
+document.getElementById("date2").innerHTML = 'Format <b>2018/05/14 05:04:22 AM</b> (<b>yyyy/mm/dd hh:mm:ss A</b> )</br>Date object is :- '+ parseDateTime(date2);
+document.getElementById("date3").innerHTML = 'Format <b>2018/05/04</b> (<b>yyyy/mm/dd</b> )</br> Date object is :- '+ parseDateTime(date3);
+document.getElementById("date4").innerHTML = 'Format <b>2018-05-04</b>  (<b>yyyy-mm-dd</b> )</br>Date object is :- '+ parseDateTime(date4);
+document.getElementById("date5").innerHTML = 'Format <b>2018-05-14 15:04:22</b> (<b>yyyy-mm-dd HH:mm:ss</b> )</br>  Date object is :- '+ parseDateTime(date5);
+document.getElementById("date6").innerHTML = 'Format <b>2018/05/14 14:04:22</b> (<b>yyyy/mm/dd HH:mm:ss</b> )</br>Date object is :- '+ parseDateTime(date6);
+</script>
+
+</body>
+</html>
